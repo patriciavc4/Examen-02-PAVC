@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrar Medicamento</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition">
+<div class="container-fluid p-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Registrar Nuevo Medicamento</h3>
+                </div>
+
+                <div class="user-panel mt-1 pb-1 mb-1 d-flex" th:if="${session.usuario != null}">
+                    <div class="info">
+                        <a href="#" class="d-block">
+                            <i class="fas fa-user mr-2"></i>
+                            <span th:text="${session.usuario.nombre}">Usuario</span>
+                        </a>
+                    </div>
+                </div>
+
+                <form th:action="@{/medicamentos}" th:object="${medicamento}" method="post">
+                    <div class="card-body pt-2">
+                        <div class="form-group">
+                            <label for="nombre">Nombre del medicamento:</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="presentacion">Presentación:</label>
+                            <input type="text" th:field="*{presentacion}" class="form-control" id="presentacion" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="laboratorio">Laboratorio:</label>
+                            <input type="text" th:field="*{laboratorio}" class="form-control" id="laboratorio" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="precio">Precio:</label>
+                            <input type="number" step="0.01" th:field="*{precio}" class="form-control" id="precio" required>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a th:href="@{/medicamentos}" class="btn btn-default float-right">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>

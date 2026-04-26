@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eliminar Venta</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition">
+<div class="container-fluid p-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card card-danger">
+                <div class="card-header">
+                    <h3 class="card-title">Confirmar Eliminación de Venta</h3>
+                </div>
+
+                <div class="user-panel mt-2 pb-2 mb-2 d-flex" th:if="${session.usuario != null}">
+                    <div class="info">
+                        <a href="#" class="d-block">
+                            <i class="fas fa-user mr-2"></i>
+                            <span th:text="${session.usuario.nombre}">Usuario</span>
+                        </a>
+                    </div>
+                </div>
+
+                <form th:action="@{/ventas/eliminar}" th:object="${venta}" method="post">
+
+                    <input type="hidden" th:field="*{idVenta}">
+
+                    <div class="card-body pt-2">
+                        <p class="text-bold text-center">¿Está seguro de que desea eliminar esta venta?</p>
+                        <hr>
+
+                        <div class="form-group">
+                            <label>ID Venta:</label>
+                            <input type="text" th:field="*{idVenta}" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre del cliente:</label>
+                            <input type="text" th:field="*{nombreCliente}" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fecha:</label>
+                            <input type="text" class="form-control"
+                                   th:value="${#dates.format(venta.fechaVenta, 'dd/MM/yyyy')}" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total:</label>
+                            <input type="text" class="form-control"
+                                   th:value="'$' + ${#numbers.formatDecimal(venta.total, 1, 'COMMA', 2, 'POINT')}" disabled>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a th:href="@{/ventas}" class="btn btn-default float-right">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>

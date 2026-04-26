@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Actualizar Detalle</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition">
+<div class="container-fluid p-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Actualizar Detalle</h3>
+                </div>
+
+                <div class="user-panel mt-1 pb-1 mb-1 d-flex" th:if="${session.usuario != null}">
+                    <div class="info">
+                        <a href="#" class="d-block">
+                            <i class="fas fa-user mr-2"></i>
+                            <span th:text="${session.usuario.nombre}">Usuario</span>
+                        </a>
+                    </div>
+                </div>
+
+                <form th:action="@{/ventas/detalles/actualizar}" method="post">
+
+                    <input type="hidden" name="idDetalle" th:value="${detalle.idDetalle}">
+                    <input type="hidden" name="venta.idVenta" th:value="${detalle.venta.idVenta}">
+
+                    <div class="card-body pt-2">
+
+                        <div class="form-group">
+                            <label>Venta:</label>
+                            <input type="text" class="form-control"
+                                   th:value="'#' + ${detalle.venta.idVenta} + ' - ' + ${detalle.venta.nombreCliente}"
+                                   disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medicamento">Medicamento:</label>
+                            <select name="medicamento.idMedicamento" class="form-control" id="medicamento" required onchange="actualizarPrecio(this)">
+                                <option value="">-- Selecciona un medicamento --</option>
+                                <option th:each="med : ${medicamentos}"
+                                        th:value="${med.idMedicamento}"
+                                        th:text="${med.nombre} + ' - $' + ${med.precio}"
+                                        th:attr="data-precio=${med.precio}"
+                                        th:selected="${med.idMedicamento == detalle.medicamento.idMedicamento}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="precio">Precio unitario:</label>
+                            <input type="text" class="form-control" id="precio" disabled
+                                   th:value="'$' + ${detalle.medicamento.precio}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" name="cantidad" class="form-control" id="cantidad"
+                                   min="1" required th:value="${detalle.cantidad}" oninput="calcularSubtotal()">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subtotal">Subtotal:</label>
+                            <input type="text" class="form-control" id="subtotal" disabled
+                                   th:value="'$' + ${detalle.subtotal}">
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Actualizar</button>
+                        <a th:href="@{/ventas/detalles/{id}(id=${detalle.venta.idVenta})}" class="btn btn-default float-right">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+
+<script>
+    function actualizarPrecio(select) {
+        const opcionSeleccionada = select.options[select.selectedIndex];
+        const precio = opcionSeleccionada.getAttribute('data-precio');
+        document.getElementById('precio').value = precio ? '$' + parseFloat(precio).toFixed(2) : '';
+        calcularSubtotal();
+    }
+
+    function calcularSubtotal() {
+        const select = document.getElementById('medicamento');
+        const opcionSeleccionada = select.options[select.selectedIndex];
+        const precio = parseFloat(opcionSeleccionada.getAttribute('data-precio')) || 0;
+        const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+        const subtotal = precio * cantidad;
+        document.getElementById('subtotal').value = subtotal > 0 ? '$' + subtotal.toFixed(2) : '';
+    }
+</script>
+</body>
+</html>
