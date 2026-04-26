@@ -53,7 +53,7 @@ public class AuthController {
         }
 
         session.setAttribute("usuario", user);
-        return "redirect:/inicio";
+        return "redirect:/";
     }
 
     @PostMapping("/register")

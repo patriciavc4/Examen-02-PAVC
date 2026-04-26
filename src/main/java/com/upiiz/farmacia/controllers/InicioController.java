@@ -22,12 +22,6 @@ public class InicioController {
     private MedicamentoServiceImpl medicamentoServiceImpl;
 
     @GetMapping("/")
-    public String redireccion(HttpSession session) {
-        if (session.getAttribute("usuario") == null) return "redirect:/auth/login";
-        return "redirect:/inicio";
-    }
-
-    @GetMapping("/inicio")
     public String inicio(HttpSession session, Model model) {
         if (session.getAttribute("usuario") == null) return "redirect:/auth/login";
 
@@ -52,6 +46,6 @@ public class InicioController {
         model.addAttribute("meses", List.of("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"));
         model.addAttribute("ventasPorMes", ventasPorMes);
 
-        return "inicio";
+        return "index";
     }
 }
