@@ -53,6 +53,6 @@ public class InicioController {
         model.addAttribute("meses", List.of("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"));
         model.addAttribute("ventasPorMes", ventasPorMes);
 
-        return "index";
+        return "inicio";
     }
 }
