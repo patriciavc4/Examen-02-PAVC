@@ -21,6 +21,11 @@ public class InicioController {
     @Autowired
     private MedicamentoServiceImpl medicamentoServiceImpl;
 
+    @GetMapping("/")
+    public String redireccionInicio() {
+        return "redirect:/inicio";
+    }
+
     @GetMapping("/inicio")
     public String inicio(HttpSession session, Model model) {
         if (session.getAttribute("usuario") == null) return "redirect:/auth/login";
