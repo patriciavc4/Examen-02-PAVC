@@ -85,13 +85,11 @@ public class MedicamentoController {
 
     @PostMapping("/eliminar")
     public String eliminarMedicamento(HttpSession session, @ModelAttribute MedicamentoEntity medicamentoEntity) {
-        // 1. Verificamos sesión
         if (session.getAttribute("usuario") == null) {
             return "redirect:/auth/login";
         }
 
         try {
-            // 2. Intentamos eliminar
             medicamentoServiceImpl.eliminarMedicamento(medicamentoEntity.getIdMedicamento());
             return "redirect:/medicamentos";
 

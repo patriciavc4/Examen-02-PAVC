@@ -33,13 +33,11 @@ public class InicioController {
 
         List<VentaEntity> ventas = ventaServiceImpl.listarVentas();
 
-
         model.addAttribute("totalVentas", ventas.size());
         model.addAttribute("totalMedicamentos", medicamentoServiceImpl.listarMedicamentos().size());
         model.addAttribute("totalUsuarios", 1);
         model.addAttribute("totalIngresos",
                 ventas.stream().mapToDouble(v -> v.getTotal() != null ? v.getTotal() : 0).sum());
-
 
         int[] ventasPorMes = new int[12];
         for (VentaEntity v : ventas) {
