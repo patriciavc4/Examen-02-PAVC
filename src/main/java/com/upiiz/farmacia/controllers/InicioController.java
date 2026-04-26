@@ -22,8 +22,8 @@ public class InicioController {
     private MedicamentoServiceImpl medicamentoServiceImpl;
 
     @GetMapping("/")
-    public String redireccionInicio() {
-        return "redirect:/inicio";
+    public String redireccion() {
+        return "redirect:/auth/register";
     }
 
     @GetMapping("/inicio")
